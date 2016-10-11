@@ -1,0 +1,142 @@
+<!doctype html>
+<html ng-app='lifeApp'>
+<head>
+	<title>Compare Your Life</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link rel='stylesheet' href='styles/external.css'>
+
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-sanitize.js"></script>
+
+	<script src='scripts/external.js'></script>
+</head>
+<body ng-controller='CompareLifeController as clc'>
+	<header>
+		<a href='index.html'><h1>Compare Your Life</h1></a>
+	</header>
+
+	<div class='user-input'>
+		<form name='myLife' action ='scripts/life-table.php' method='post'>
+			<hr>
+
+			<label>
+				Year of Birth<sup>*</sup>
+				<input required type='number' placeholder='Year' name='age' ng-model='clc.age' min='1900' max='{{clc.currYear}}'>
+			</label>
+
+			<div ng-show="myLife.$submitted||myLife.age.$touched">
+                <span ng-show="myLife.age.$error.min">
+                    <sup>*</sup>Year cannot be less than 1900
+                </span>
+                <span ng-show="myLife.age.$error.max">
+                    <sup>*</sup>Year cannot be greater than {{clc.currYear}}
+                </span>
+                <span ng-show="myLife.age.$error.number">
+                    <sup>*</sup>Year must be a number
+                </span>
+            </div>
+
+			<hr>
+
+			<label>
+				Country<sup>*</sup>
+				<input type='text' name='country' placeholder='Country' required maxlength='18' ng-model='clc.country'>
+			</label>
+
+			<hr>
+
+			<label class='gender'>
+				Gender<sup>*</sup>
+				<select ng-model='clc.gender' required name='gender'>
+					<option value='' disabled selected>Gender</option>
+					<option value='Male'>Male</option>
+					<option value='Female'>Female</option>
+				</select>
+			</label>
+
+			<hr>
+
+			<label class='education'>
+				Highest Level of Education<sup>*</sup>
+				<select ng-model='clc.education' required name='education'>
+					<option value='' disabled selected>Education</option>
+					<option value='None'>None</option>
+					<option value='High School'>High School</option>
+					<option value='College'>College</option>
+					<option value='Associate'>Associate</option>
+					<option value="Bachelor">Bachelor</option>
+					<option value="Masters">Master</option>
+					<option value='Professional'>Professional</option>
+					<option value='Doctorate'>Doctorate</option>
+				</select>
+			</label>
+			<label class='field'>
+				Field of Study
+				<input type='text' name='field' placeholder='Field' ng-model='clc.field' maxlength='18'>
+			</label>
+
+			<hr>
+
+			<label class='occupation'>
+				Occupation<sup>*</sup>
+				<input type='text' placeholder='Occupation' required maxlength='18' name='occupation' ng-model='clc.occupation'>
+			</label>
+			<label class='salary'>
+				Salary<sup>*</sup>
+				<input required min='0' max='1000000' name='salary' type='number' placeholder='USD' ng-model='clc.salary'>
+			</label>
+
+			<span ng-show="myLife.salary.$error.min">
+                <sup>*</sup>Salary cannot be less than 0
+            </span>
+            <span ng-show="myLife.salary.$error.max">
+                <sup>*</sup>Salary cannot be greater than 1000000
+            </span>
+            <span ng-show="myLife.salary.$error.number">
+                <sup>*</sup>Salary must be a number
+            </span>
+
+			<hr>
+
+			<label class='relationship'>
+				Relationship Status
+				<select ng-model='clc.relationship' name='relationship'>
+					<option value='' disabled selected>Relationship</option>
+					<option value='Single'>Single</option>
+					<option value='Dating'>Dating</option>
+					<option value='Married'>Married</optionn>
+					<option value='Divorced'>Divorced</option>
+					<option value='Widowed'>Widowed</option>
+				</select>
+			</label>
+
+			<hr>
+
+			<label class='children'>
+				Number of Children
+				<select ng-model='clc.children' name='children'>
+					<option value='' disabled selected>Children</option>
+					<option value='None'>None</option>
+					<option value='1'>1</option>
+					<option value='2'>2</option>
+					<option value='3'>3</option>
+					<option value='4 or More'>4 or more</option>
+				</select>
+			</label>
+
+			<hr>
+
+			<input type='submit' value='Compare' ng-disabled='myLife.$invalid'>
+
+			<p class='mandatory' ng-show="myLife.country.$error.required || myLife.age.$error.required || myLife.gender.$error.required || myLife.education.$error.required || myLife.occupation.$error.required || myLife.salary.$error.required">
+            	<sup>*</sup>Please complete all mandatory fields
+            </p>
+
+			<p>See how others compare to you <a href='compare.html'>here</a></p>
+		</form>
+	</div>
+</body>
+</html>

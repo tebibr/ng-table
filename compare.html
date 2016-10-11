@@ -1,0 +1,57 @@
+<!doctype html>
+<html ng-app='lifeApp'>
+<head>
+	<title>Compare Your Life</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link rel='stylesheet' href='styles/external.css'>
+
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-sanitize.js"></script>
+
+	<script src='scripts/external.js'></script>
+</head>
+<body ng-controller='CompareLifeController as clc'>
+	<header>
+		<a href='index.html'><h1>Compare Your Life</h1></a>
+	</header>
+
+	<div class='user-input'>
+		<p class='add-life'>Add your life to the table <a href='your-life.html'>here</a></p>
+
+		<input type='search' placeholder='Search' ng-model='clc.searchTable'>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Year</th>
+					<th>Country</th>
+					<th>Gender</th>
+					<th>Education</th>
+					<th>Field</th>
+					<th>Occupation</th>
+					<th>Salary</th>
+					<th>Relationship</th>
+					<th>Children</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr ng-repeat='life in clc.lifeTable | filter:{$:clc.searchTable} | orderBy:"age"'>
+					<td>{{life.age}}</td>
+					<td ng-bind-html=life.country></td>
+					<td ng-bind-html=life.gender></td>
+					<td ng-bind-html=life.education></td>
+					<td ng-bind-html=life.field></td>
+					<td ng-bind-html=life.occupation></td>
+					<td>${{life.salary}}</td>
+					<td ng-bind-html=life.relationship></td>
+					<td ng-bind-html=life.children></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
